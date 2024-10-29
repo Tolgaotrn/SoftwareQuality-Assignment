@@ -1,0 +1,43 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  h1 {
+    @apply text-center text-indigo-800 text-3xl;
+  }
+
+  h2,
+  h3 {
+    @apply px-6 text-indigo-800 text-xl pt-6;
+  }
+
+  thead tr {
+    @apply px-6 py-3 text-left;
+  }
+
+  tbody tr {
+    @apply border-b even:bg-gray-100 hover:bg-gray-200;
+  }
+
+  td,
+  th {
+    @apply px-6 py-3;
+  }
+
+  table {
+    @apply text-sm;
+  }
+
+  .customDatePickerWidth,
+  .customDatePickerWidth > div.react-datepicker-wrapper,
+  .customDatePickerWidth
+    > div
+    > div.react-datepicker__input-container
+    .customDatePickerWidth
+    > div
+    > div.react-datepicker__input-container
+    input {
+    @apply w-full;
+  }
+}

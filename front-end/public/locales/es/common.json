@@ -1,0 +1,28 @@
+{
+  "app.title": "Examen App",
+  "general.error": "Se ha producido un error. Vuelva a intentarlo más tarde.",
+  "header": {
+    "welcome": "Bienvenido",
+    "nav": {
+      "home": "Inicio",
+      "teams": "Grupos",
+      "coaches": "Entrenadores",
+      "login": "Conéctese",
+      "logout": "Cerrar sesión"
+    }
+  },
+  "login": {
+    "title": "Inicio de sesión",
+    "button": "Conéctese",
+    "success": "Inicio de sesión exitoso. Redirigiendo a la página de inicio...",
+    "validate": {
+      "name": "Nombre obligatorio",
+      "password": "Se requiere contraseña"
+    },
+    "label": { "username": "Nombre de usuario:", "password": "Contraseña:" }
+  },
+  "home": {
+    "title": "Bienvenido!",
+    "description": "Cursos le permite ver como profesor todos los cursos que está impartiendo y como alumno todos los cursos en los que está matriculado. También puede ver cuándo están programados los cursos y los alumnos matriculados en cada curso."
+  }
+}
