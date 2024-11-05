@@ -6,8 +6,7 @@ import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import { userRouter } from './controller/user.routes';
 import helmet from 'helmet';
-import { teamRouter } from './controller/team.routes';
-import { playerRouter } from './controller/player.routes';
+
 import { expressjwt } from 'express-jwt';
 
 const app = express();
@@ -31,29 +30,23 @@ app.use(
             '/users/signup',
             '/status',
             '/login',
-            '/players'
-            //'/user'
-            // '/room',
-            // '/room/availability',
-            // '/reservation'
-            //'/review'
+
         ]
     })
 );
 
 app.use('/users', userRouter);
-app.use('/teams', teamRouter)
-app.use('/players', playerRouter)
+
 
 app.get('/status', (req, res) => {
-    res.json({ message: 'Exam API is running...' });
+    res.json({ message: ' API is running...' });
 });
 
 const swaggerOpts = {
     definition: {
         openapi: '3.0.0',
         info: {
-            title: 'Exam API',
+            title: 'API',
             version: '1.0.0',
         },
     },
@@ -73,5 +66,5 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
 });
 
 app.listen(port || 3000, () => {
-    console.log(`Exam API is running on port ${port}.`);
+    console.log(`API is running on port ${port}.`);
 });

@@ -1,5 +1,5 @@
 
-type Role = 'admin' | 'player' | 'coach'
+type Role = 'admin' |  'user'
 
 type UserInput = {
     id?: number
@@ -11,26 +11,6 @@ type UserInput = {
     role?: Role
 }
 
-type PlayerInput = {
-    id?: number
-    user?: UserInput
-    position?: string
-}
-
-type CoachInput = {
-    id?: number
-    user?: UserInput
-    level?: number
-    teams?: TeamInput[]
-}
-
-type TeamInput = {
-    id?: number
-    name?: string
-    coach?: CoachInput
-    players?: PlayerInput[]
-}
-
 type AuthenticationResponse = {
     token: string
     username: string
@@ -40,9 +20,6 @@ type AuthenticationResponse = {
 
 export {
     Role,
-    TeamInput,
-    PlayerInput,
-    CoachInput,
     UserInput,
     AuthenticationResponse,
 }

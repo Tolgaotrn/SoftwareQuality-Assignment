@@ -33,17 +33,17 @@ const Header: React.FC = () => {
           {t("header.nav.home")}
         </Link>
         <Link
-          href="/teams"
+          href="/userdash"
           className="px-4  text-white text-xl hover:bg-gray-600 rounded-lg"
         >
-          {t("header.nav.teams")}
+          {t("header.nav.UserDashboard")}
         </Link>
-        {loggedInUser?.role == 'coach' && (
+        {loggedInUser?.role == 'admin' && (
         <Link
-          href="/coaches"
+          href="/admindash"
           className="px-4  text-white text-xl hover:bg-gray-600 rounded-lg"
         >
-          {t("header.nav.coaches")}
+          {t("header.nav.AdminDashboard")}
         </Link>
         )}
         {!loggedInUser && (

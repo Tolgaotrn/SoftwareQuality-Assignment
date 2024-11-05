@@ -7,44 +7,103 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Team {
-  id        Int       @id @default(autoincrement())
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  name      String
-  coach     Coach  @relation(fields: [coachId], references: [id])
-  coachId   Int
-  players   Player[] @relation("PlayerTeam")
+enum Role {
+  ADMIN
+  USER
+}
+export enum AssessmentType {
+    TEST = 'TEST',
+    FINAL_TEST_AT_EXAM_TIME = 'FINAL_TEST_AT_EXAM_TIME',
+    WORK_DEVELOPMENT = 'WORK_DEVELOPMENT',
+    WORK_DELIVERY = 'WORK_DELIVERY',
+    GROUP_WORK_SUBMISSION = 'GROUP_WORK_SUBMISSION',
+    WORK_PRESENTATION = 'WORK_PRESENTATION',
+    GROUP_WORK_PRESENTATION = 'GROUP_WORK_PRESENTATION',
+    MONOGRAPH = 'MONOGRAPH',
+    INDIVIDUAL_PRACTICAL_EXERCISE = 'INDIVIDUAL_PRACTICAL_EXERCISE',
+    PITCH = 'PITCH',
+    FINAL_EXAM = 'FINAL_EXAM',
+    ORAL_EXAM = 'ORAL_EXAM'
 }
 
-model Player {
-  id        Int       @id @default(autoincrement())
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  userId    Int       @unique
-  user      User      @relation(fields: [userId], references: [id])
-  position  String
-  teams     Team[]      @relation("PlayerTeam")
+enum AssessmentType {
+  TEST
+  FINAL_TEST_AT_EXAM_TIME
+  WORK_DEVELOPMENT
+  WORK_DELIVERY
+  GROUP_WORK_SUBMISSION
+  WORK_PRESENTATION
+  GROUP_WORK_PRESENTATION
+  MONOGRAPH
+  INDIVIDUAL_PRACTICAL_EXERCISE
+  PITCH
+  FINAL_EXAM
+  ORAL_EXAM
 }
 
-model Coach {
-  id        Int       @id @default(autoincrement())
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  userId    Int       @unique
-  user      User      @relation(fields: [userId], references: [id])
-  level     Int
-  teams     Team[]
-}
-
+// User model
 model User {
-  id        Int       @id @default(autoincrement())
-  username  String    @unique
-  firstName String
-  lastName  String
-  email     String    @unique
-  password  String
-  role      String
-  player    Player?
-  coach     Coach?
+  id               Int       @id @default(autoincrement())
+  username         String    @unique
+  firstName        String
+  lastName         String
+  email            String    @unique
+  password         String
+  role             Role
+  coordinatedCourses Course[] @relation("CoordinatorCourses") // Added opposite relation for coordinator
+}
+
+// Course model
+model Course {
+  id            Int       @id @default(autoincrement())
+  name          String
+  assessments   Assessment[]
+  coordinator   User      @relation("CoordinatorCourses", fields: [coordinatorId], references: [id])
+  coordinatorId Int
+  semester      Semester? @relation("SemesterCourses", fields: [semesterId], references: [id])
+  semesterId    Int?
+  assesmentType Assesment
+}
+
+// Semester model
+model Semester {
+  id              Int          @id @default(autoincrement())
+  startDate       DateTime     // Start date of the semester
+  endDate         DateTime     // End date of the semester
+  normalPeriod    DateTime     // Start of normal exam period
+  appealPeriod    DateTime     // Start of appeal exam period
+  specialPeriod   DateTime     // Start of special exam period
+  courses         Course[]     @relation("SemesterCourses")
+  assessments     Assessment[] @relation("SemesterAssessments")
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+}
+
+// Assessment model
+model Assessment {
+  id                Int             @id @default(autoincrement())
+  type              AssessmentType
+  weight            Float           // Weighting as a percentage
+  date              DateTime        // Date and time of the assessment
+  location          String
+  requiresComputer  Boolean         // Whether a computer is required
+  mandatoryAttendance Boolean       // Indicates if attendance is mandatory
+  deadline          DateTime?       // Deadline for work submission, if applicable
+  course            Course          @relation(fields: [courseId], references: [id])
+  courseId          Int
+  semester          Semester?       @relation("SemesterAssessments", fields: [semesterId], references: [id])
+  semesterId        Int?
+  room              Room?           @relation(fields: [roomId], references: [id])
+  roomId            Int?
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+}
+
+// Room model
+model Room {
+  id            Int       @id @default(autoincrement())
+  roomNumber    String    @unique
+  capacity      Int       // Room capacity
+  computerCount Int       // Number of computers in the room
+  assessments   Assessment[]
 }
