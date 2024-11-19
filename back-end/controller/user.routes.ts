@@ -137,7 +137,7 @@ userRouter.post('/login', async (req: Request, res: Response, next: NextFunction
     }
 })
 
-userRouter.post('/signup', async (req: Request, res: Response, next: NextFunction) => {
+userRouter.post('/', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const userInput = <UserInput>req.body
         const user = await userService.createUser(userInput)

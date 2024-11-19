@@ -1,5 +1,5 @@
 
-type Role = 'admin' |  'user'
+type Role = 'admin' |  'coordinator'
 
 type UserInput = {
     id?: number

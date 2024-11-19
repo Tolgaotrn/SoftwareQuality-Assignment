@@ -32,18 +32,20 @@ const Header: React.FC = () => {
         >
           {t("header.nav.home")}
         </Link>
-        <Link
-          href="/userdash"
-          className="px-4  text-white text-xl hover:bg-gray-600 rounded-lg"
-        >
-          {t("header.nav.UserDashboard")}
-        </Link>
+        {loggedInUser?.role == 'coordinator' && (
+          <Link
+            href="/userdash"
+            className="px-4  text-white text-xl hover:bg-gray-600 rounded-lg"
+          >
+            {t("UserDashboard")}
+          </Link>
+        )}
         {loggedInUser?.role == 'admin' && (
         <Link
           href="/admindash"
           className="px-4  text-white text-xl hover:bg-gray-600 rounded-lg"
         >
-          {t("header.nav.AdminDashboard")}
+          {t("AdminDashboard")}
         </Link>
         )}
         {!loggedInUser && (

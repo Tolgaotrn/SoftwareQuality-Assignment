@@ -8,6 +8,10 @@ import { userRouter } from './controller/user.routes';
 import helmet from 'helmet';
 
 import { expressjwt } from 'express-jwt';
+import assesmentRoutes from "./controller/assesment.routes";
+import roomRoutes from "./controller/room.routes";
+import courseRoutes from "./controller/course.routes";
+import semesterRoutes from "./controller/semester.routes";
 
 const app = express();
 app.use(helmet());
@@ -18,24 +22,29 @@ const port = process.env.APP_PORT || 3000;
 app.use(cors({ origin: 'http://localhost:8080' }));
 app.use(bodyParser.json());
 
-app.use(
-    expressjwt({
-        secret: process.env.JWT_SECRET,
-        algorithms: ["HS256"]
-    }).unless({
-        path: [
-            '/api-docs',
-            /^\/api-docs\/.*/,
-            '/users/login',
-            '/users/signup',
-            '/status',
-            '/login',
-
-        ]
-    })
-);
+// app.use(
+//     expressjwt({
+//         secret: process.env.JWT_SECRET,
+//         algorithms: ["HS256"]
+//     }).unless({
+//         path: [
+//             '/api-docs',
+//             /^\/api-docs\/.*/,
+//             '/users/login',
+//             '/users/signup',
+//             '/status',
+//             '/login',
+//
+//         ]
+//     })
+// );
 
 app.use('/users', userRouter);
+app.use('/assement', assesmentRoutes);
+app.use('/room', roomRoutes);
+app.use('/course', courseRoutes);
+app.use('/semester', semesterRoutes);
+
 
 
 app.get('/status', (req, res) => {

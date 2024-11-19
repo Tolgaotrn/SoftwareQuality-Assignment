@@ -8,22 +8,8 @@ datasource db {
 }
 
 enum Role {
-  ADMIN
-  USER
-}
-export enum AssessmentType {
-    TEST = 'TEST',
-    FINAL_TEST_AT_EXAM_TIME = 'FINAL_TEST_AT_EXAM_TIME',
-    WORK_DEVELOPMENT = 'WORK_DEVELOPMENT',
-    WORK_DELIVERY = 'WORK_DELIVERY',
-    GROUP_WORK_SUBMISSION = 'GROUP_WORK_SUBMISSION',
-    WORK_PRESENTATION = 'WORK_PRESENTATION',
-    GROUP_WORK_PRESENTATION = 'GROUP_WORK_PRESENTATION',
-    MONOGRAPH = 'MONOGRAPH',
-    INDIVIDUAL_PRACTICAL_EXERCISE = 'INDIVIDUAL_PRACTICAL_EXERCISE',
-    PITCH = 'PITCH',
-    FINAL_EXAM = 'FINAL_EXAM',
-    ORAL_EXAM = 'ORAL_EXAM'
+  admin
+  coordinator
 }
 
 enum AssessmentType {
@@ -41,6 +27,8 @@ enum AssessmentType {
   ORAL_EXAM
 }
 
+
+
 // User model
 model User {
   id               Int       @id @default(autoincrement())
@@ -57,22 +45,19 @@ model User {
 model Course {
   id            Int       @id @default(autoincrement())
   name          String
+  code          String    @unique
   assessments   Assessment[]
   coordinator   User      @relation("CoordinatorCourses", fields: [coordinatorId], references: [id])
   coordinatorId Int
   semester      Semester? @relation("SemesterCourses", fields: [semesterId], references: [id])
   semesterId    Int?
-  assesmentType Assesment
 }
 
 // Semester model
 model Semester {
   id              Int          @id @default(autoincrement())
-  startDate       DateTime     // Start date of the semester
-  endDate         DateTime     // End date of the semester
-  normalPeriod    DateTime     // Start of normal exam period
-  appealPeriod    DateTime     // Start of appeal exam period
-  specialPeriod   DateTime     // Start of special exam period
+  startDate       DateTime
+  endDate         DateTime
   courses         Course[]     @relation("SemesterCourses")
   assessments     Assessment[] @relation("SemesterAssessments")
   createdAt       DateTime     @default(now())
@@ -83,12 +68,12 @@ model Semester {
 model Assessment {
   id                Int             @id @default(autoincrement())
   type              AssessmentType
-  weight            Float           // Weighting as a percentage
-  date              DateTime        // Date and time of the assessment
+  weight            Float
+  date              DateTime
   location          String
-  requiresComputer  Boolean         // Whether a computer is required
-  mandatoryAttendance Boolean       // Indicates if attendance is mandatory
-  deadline          DateTime?       // Deadline for work submission, if applicable
+  requiresComputer  Boolean
+  mandatoryAttendance Boolean
+  deadline          DateTime?
   course            Course          @relation(fields: [courseId], references: [id])
   courseId          Int
   semester          Semester?       @relation("SemesterAssessments", fields: [semesterId], references: [id])
@@ -99,11 +84,12 @@ model Assessment {
   updatedAt         DateTime        @updatedAt
 }
 
+
 // Room model
 model Room {
   id            Int       @id @default(autoincrement())
-  roomNumber    String    @unique
-  capacity      Int       // Room capacity
-  computerCount Int       // Number of computers in the room
+  name          String    @unique
+  capacity      Int
+  hasComputers  Boolean
   assessments   Assessment[]
 }

@@ -1,46 +1,30 @@
-import {Room as RoomPrisma} from '@prisma/client'
+import { Room as RoomPrisma } from '@prisma/client'
+
 export class Room {
     readonly id?: number
-    readonly roomNumber: string
+    readonly name: string
     readonly capacity: number
-    readonly computerCount: number
+    readonly hasComputers: boolean
 
-    constructor(room: {
-        id?: number
-        roomNumber: string
-        capacity: number
-        computerCount: number
-    }) {
+    constructor(room: { id?: number; name: string; capacity: number; hasComputers: boolean }) {
         this.validate(room)
 
         this.id = room.id
-        this.roomNumber = room.roomNumber
+        this.name = room.name
         this.capacity = room.capacity
-        this.computerCount = room.computerCount
+        this.hasComputers = room.hasComputers
     }
 
-    validate(room: {
-        roomNumber: string
-        capacity: number
-        computerCount: number
-    }) {
-        if (!room.roomNumber?.trim()) {
-            throw new Error('Room number is required')
+    validate(room: { name: string; capacity: number; hasComputers: boolean }) {
+        if (!room.name?.trim()) {
+            throw new Error('Room name is required')
         }
         if (room.capacity <= 0) {
-            throw new Error('Room capacity must be positive')
-        }
-        if (room.computerCount < 0) {
-            throw new Error('Computer count cannot be negative')
+            throw new Error('Room capacity must be greater than 0')
         }
     }
 
-    static from({ id, roomNumber, capacity, computerCount }: RoomPrisma) {
-        return new Room({
-            id,
-            roomNumber,
-            capacity,
-            computerCount
-        })
+    static from({ id, name, capacity, hasComputers }: RoomPrisma) {
+        return new Room({ id, name, capacity, hasComputers })
     }
 }
