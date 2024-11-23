@@ -8,21 +8,24 @@ const AdminDashComponent: React.FC = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 <Link href="/semester">
                     <div className="bg-blue-600 p-6 rounded-lg shadow-lg hover:bg-blue-700 transition duration-300">
-                        <p className="text-white text-xl font-semibold text-center">Manage Semesters</p>
+                        <p className="text-white text-xl font-semibold text-center">Add Semester</p>
                     </div>
                 </Link>
-                {/* Add more admin functionalities here */}
-                <Link href="/users">
+                <Link href="/semester/getSemester_index">
                     <div className="bg-blue-600 p-6 rounded-lg shadow-lg hover:bg-blue-700 transition duration-300">
-                        <p className="text-white text-xl font-semibold text-center">Manage Users</p>
+                        <p className="text-white text-xl font-semibold text-center">All Semesters</p>
                     </div>
                 </Link>
-                <Link href="/reports">
+                <Link href="/room">
                     <div className="bg-blue-600 p-6 rounded-lg shadow-lg hover:bg-blue-700 transition duration-300">
-                        <p className="text-white text-xl font-semibold text-center">View Reports</p>
+                        <p className="text-white text-xl font-semibold text-center">Manage Room</p>
                     </div>
                 </Link>
-                {/* Continue adding additional admin functionalities here */}
+                <Link href="/addCourse">
+                    <div className="bg-blue-600 p-6 rounded-lg shadow-lg hover:bg-blue-700 transition duration-300">
+                        <p className="text-white text-xl font-semibold text-center">Add Course</p>
+                    </div>
+                </Link>
             </div>
         </div>
     );

@@ -47,8 +47,8 @@ model Course {
   name          String
   code          String    @unique
   assessments   Assessment[]
-  coordinator   User      @relation("CoordinatorCourses", fields: [coordinatorId], references: [id])
-  coordinatorId Int
+  coordinator   User?      @relation("CoordinatorCourses", fields: [coordinatorId], references: [id])
+  coordinatorId Int?
   semester      Semester? @relation("SemesterCourses", fields: [semesterId], references: [id])
   semesterId    Int?
 }

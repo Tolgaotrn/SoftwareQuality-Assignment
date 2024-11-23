@@ -10,8 +10,23 @@ const loginUser = (user: User) => {
     })
 }
 
+const getUserByUsername= async (username: string) => {
+    const response = await fetch(process.env.NEXT_PUBLIC_API_URL + "/users/" + username, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    })
+    return response.json();
+
+}
+
+
+
+
 const UserService = {
     loginUser,
+    getUserByUsername
 }
 
 export default UserService

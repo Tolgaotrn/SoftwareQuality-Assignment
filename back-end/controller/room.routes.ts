@@ -1,10 +1,11 @@
 import express from 'express'
 import roomService from '../service/room.service'
+import RoomService from "../service/room.service";
 
 const roomRouter = express.Router()
 
 // GET all rooms
-roomRouter.get('/rooms', async (req, res) => {
+roomRouter.get('/', async (req, res) => {
     try {
         const rooms = await roomService.getAllRooms()
         res.json(rooms)
@@ -14,7 +15,7 @@ roomRouter.get('/rooms', async (req, res) => {
 })
 
 // GET room by ID
-roomRouter.get('/rooms/:id', async (req, res) => {
+roomRouter.get('/:id', async (req, res) => {
     try {
         const { id } = req.params
         const room = await roomService.getRoomById({ id: Number(id) })
@@ -28,7 +29,7 @@ roomRouter.get('/rooms/:id', async (req, res) => {
 })
 
 // POST create a new room
-roomRouter.post('/rooms', async (req, res) => {
+roomRouter.post('/', async (req, res) => {
     try {
         const { name, capacity, hasComputers } = req.body
         const newRoom = await roomService.createRoom({
@@ -39,6 +40,17 @@ roomRouter.post('/rooms', async (req, res) => {
         res.status(201).json(newRoom)
     } catch (error) {
         res.status(500).json({ error: error.message })
+    }
+})
+
+roomRouter.delete('/:id', async (req, res) => {
+    try {
+        const { id } = req.params
+        const room = await RoomService.getRoomById({ id: Number(id) })
+        RoomService.deleteRoomById({ id: Number(id)});
+        res.json(room)
+    } catch (error) {
+        res.status(500).json({error: error.message})
     }
 })
 

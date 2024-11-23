@@ -30,16 +30,49 @@ courseRouter.get('/:id', async (req, res) => {
 // POST create a new course
 courseRouter.post('/', async (req, res) => {
     try {
-        const { name, code, coordinatorId } = req.body
+        const { name, code, coordinatorId } = req.body;
         const newCourse = await courseService.createCourse({
             name,
             code,
-            coordinatorId: Number(coordinatorId),
-        })
-        res.status(201).json(newCourse)
+            coordinatorId,
+        });
+        res.status(201).json(newCourse);
     } catch (error) {
-        res.status(500).json({ error: error.message })
+        res.status(500).json({ error: error.message });
     }
-})
+});
+courseRouter.put('/:id/assign', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { coordinatorId } = req.body;
+        const updatedCourse = await courseService.assignCoordinator({
+            id: Number(id),
+            coordinatorId,
+        });
+        res.json(updatedCourse);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+courseRouter.get('/user/:username', async (req, res) => {
+    try {
+        const { username } = req.params;
+        const courses = await courseService.getAllCoursesByUser({ username });
+        res.json(courses);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+courseRouter.put('/:id/unassign', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const updatedCourse = await courseService.unassignCourse({ id: Number(id) });
+        res.json(updatedCourse); // Ensure this sends the correct response
+    } catch (error) {
+        console.error("Error in unassign handler:", error);
+        res.status(500).json({ error: error.message });
+    }
+});
 
 export default courseRouter

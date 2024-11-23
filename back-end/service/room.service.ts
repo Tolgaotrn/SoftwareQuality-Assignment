@@ -24,8 +24,16 @@ const createRoom = async ({
     return await roomDB.createRoom(room)
 }
 
+const deleteRoomById = async ({ id }: { id: number }): Promise<Room> => {
+    const room = await getRoomById({ id })
+    await roomDB.deleteRoomById({ id })
+    return room
+
+}
+
 export default {
     getAllRooms,
     getRoomById,
     createRoom,
+    deleteRoomById
 }

@@ -137,7 +137,7 @@ userRouter.post('/login', async (req: Request, res: Response, next: NextFunction
     }
 })
 
-userRouter.post('/', async (req: Request, res: Response, next: NextFunction) => {
+userRouter.post('/register', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const userInput = <UserInput>req.body
         const user = await userService.createUser(userInput)
@@ -146,5 +146,16 @@ userRouter.post('/', async (req: Request, res: Response, next: NextFunction) => 
         next(error)
     }
 })
+
+userRouter.get('/:username', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const username = req.params.username
+        const user = await userService.getUserByUsername({ username })
+        res.status(200).json(user)
+    } catch (error) {
+        next(error)
+    }
+})
+
 
 export { userRouter }

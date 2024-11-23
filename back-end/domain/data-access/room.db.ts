@@ -39,9 +39,15 @@ const createRoom = async ({
         throw new Error('Database error. See server log for details.')
     }
 }
+const deleteRoomById = async ({ id }: { id: number }): Promise<Room> => {
+    const room = await getRoomById({ id })
+    await database.room.delete({ where: { id } })
+    return room
 
+}
 export default {
     getAllRooms,
     getRoomById,
     createRoom,
+    deleteRoomById
 }
