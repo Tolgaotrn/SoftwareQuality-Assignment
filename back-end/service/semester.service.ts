@@ -24,19 +24,44 @@ const getSemesterById = async ({ id }: { id: number }): Promise<Semester | null>
 const createSemester = async ({
                                   startDate,
                                   endDate,
+                                  normalExamPeriod,
+                                  appealExamPeriod,
+                                  specialExamPeriod,
                               }: {
-    startDate: Date
-    endDate: Date
+    startDate: Date;
+    endDate: Date;
+    normalExamPeriod: { startDate: Date; endDate: Date };
+    appealExamPeriod: { startDate: Date; endDate: Date };
+    specialExamPeriod: { startDate: Date; endDate: Date };
 }): Promise<Semester> => {
     try {
+        console.log("Creating semester with data:", {
+            startDate,
+            endDate,
+            normalExamPeriod,
+            appealExamPeriod,
+            specialExamPeriod,
+        });
+
         const semesterPrisma = await database.semester.create({
-            data: { startDate, endDate },
-        })
-        return Semester.from(semesterPrisma)
+            data: {
+                startDate,
+                endDate,
+                normalStartDate: normalExamPeriod.startDate,
+                normalEndDate: normalExamPeriod.endDate,
+                appealStartDate: appealExamPeriod.startDate,
+                appealEndDate: appealExamPeriod.endDate,
+                specialStartDate: specialExamPeriod.startDate,
+                specialEndDate: specialExamPeriod.endDate,
+            },
+        });
+        return Semester.from(semesterPrisma);
     } catch (error) {
-        throw new Error('Database error. See server log for details.')
+        console.error("Error in createSemester:", error); // Log the full error
+        throw new Error("Database error");
     }
-}
+};
+
 
 export default {
     getAllSemesters,

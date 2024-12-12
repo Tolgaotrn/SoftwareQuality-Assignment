@@ -27,69 +27,72 @@ enum AssessmentType {
   ORAL_EXAM
 }
 
-
-
 // User model
 model User {
-  id               Int       @id @default(autoincrement())
-  username         String    @unique
-  firstName        String
-  lastName         String
-  email            String    @unique
-  password         String
-  role             Role
+  id                 Int      @id @default(autoincrement())
+  username           String   @unique
+  firstName          String
+  lastName           String
+  email              String   @unique
+  password           String
+  role               Role
   coordinatedCourses Course[] @relation("CoordinatorCourses") // Added opposite relation for coordinator
 }
 
 // Course model
 model Course {
-  id            Int       @id @default(autoincrement())
+  id            Int          @id @default(autoincrement())
   name          String
-  code          String    @unique
+  code          String       @unique
   assessments   Assessment[]
-  coordinator   User?      @relation("CoordinatorCourses", fields: [coordinatorId], references: [id])
+  coordinator   User?        @relation("CoordinatorCourses", fields: [coordinatorId], references: [id])
   coordinatorId Int?
-  semester      Semester? @relation("SemesterCourses", fields: [semesterId], references: [id])
+  semester      Semester?    @relation("SemesterCourses", fields: [semesterId], references: [id])
   semesterId    Int?
 }
 
 // Semester model
 model Semester {
-  id              Int          @id @default(autoincrement())
-  startDate       DateTime
-  endDate         DateTime
-  courses         Course[]     @relation("SemesterCourses")
-  assessments     Assessment[] @relation("SemesterAssessments")
-  createdAt       DateTime     @default(now())
-  updatedAt       DateTime     @updatedAt
+  id               Int          @id @default(autoincrement())
+  startDate        DateTime
+  endDate          DateTime
+  normalStartDate  DateTime
+  normalEndDate    DateTime
+  appealStartDate  DateTime
+  appealEndDate    DateTime
+  specialStartDate DateTime
+  specialEndDate   DateTime
+  courses          Course[]     @relation("SemesterCourses")
+  assessments      Assessment[] @relation("SemesterAssessments")
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
 }
 
 // Assessment model
 model Assessment {
-  id                Int             @id @default(autoincrement())
-  type              AssessmentType
-  weight            Float
-  date              DateTime
-  location          String
-  requiresComputer  Boolean
+  id                  Int            @id @default(autoincrement())
+  type                AssessmentType
+  weight              Float
+  date                DateTime
+  location            String
+  requiresComputer    Boolean
   mandatoryAttendance Boolean
-  deadline          DateTime?
-  course            Course          @relation(fields: [courseId], references: [id])
-  courseId          Int
-  semester          Semester?       @relation("SemesterAssessments", fields: [semesterId], references: [id])
-  semesterId        Int?
-  room              Room?           @relation(fields: [roomId], references: [id])
-  roomId            Int?
-  createdAt         DateTime        @default(now())
-  updatedAt         DateTime        @updatedAt
+  deadline            DateTime?
+  course              Course         @relation(fields: [courseId], references: [id])
+  courseId            Int
+  semester            Semester?      @relation("SemesterAssessments", fields: [semesterId], references: [id])
+  semesterId          Int?
+  room                Room?          @relation(fields: [roomId], references: [id])
+  roomId              Int?
+  createdAt           DateTime       @default(now())
+  updatedAt           DateTime       @updatedAt
 }
-
 
 // Room model
 model Room {
-  id            Int       @id @default(autoincrement())
-  name          String    @unique
-  capacity      Int
-  hasComputers  Boolean
-  assessments   Assessment[]
+  id           Int          @id @default(autoincrement())
+  name         String       @unique
+  capacity     Int
+  hasComputers Boolean
+  assessments  Assessment[]
 }

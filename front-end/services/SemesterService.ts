@@ -1,6 +1,5 @@
-// front-end/services/SemesterService.ts
 const createSemester = async (semesterData) => {
-    const response = await fetch(process.env.NEXT_PUBLIC_API_URL + "/semester", {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/semester`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -9,11 +8,13 @@ const createSemester = async (semesterData) => {
     });
 
     if (!response.ok) {
-        throw new Error("Failed to create semester");
+        const errorDetails = await response.json().catch(() => ({}));
+        throw new Error(errorDetails.message || "Failed to create semester");
     }
 
     return response.json();
 };
+
 const getAllSemesters = async () => {
     const response = await fetch(process.env.NEXT_PUBLIC_API_URL + "/semester", {
         method: "GET",
@@ -31,7 +32,7 @@ const getAllSemesters = async () => {
 
 const SemesterService = {
     createSemester,
-    getAllSemesters
+    getAllSemesters,
 };
 
 export default SemesterService;
