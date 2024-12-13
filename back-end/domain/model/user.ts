@@ -1,72 +1,72 @@
-import { User as UserPrisma } from '@prisma/client'
-import { Role } from '../../types'
+import { User as UserPrisma } from '@prisma/client';
+import { Role } from '../../types';
 
 export class User {
-    readonly id?: number
-    readonly username: string
-    readonly firstName: string
-    readonly lastName: string
-    readonly email: string
-    readonly password: string
-    readonly role?: Role
+    readonly id?: number;
+    readonly username: string;
+    readonly firstName: string;
+    readonly lastName: string;
+    readonly email: string;
+    readonly password: string;
+    readonly role?: Role;
 
     constructor(user: {
-        id?: number
-        username: string
-        firstName: string
-        lastName: string
-        email: string
-        password: string
-        role: Role
+        id?: number;
+        username: string;
+        firstName: string;
+        lastName: string;
+        email: string;
+        password: string;
+        role: Role;
     }) {
-        this.validate(user)
+        this.validate(user);
 
-        this.id = user.id
-        this.username = user.username
-        this.firstName = user.firstName
-        this.lastName = user.lastName
-        this.email = user.email
-        this.password = user.password
-        this.role = user.role
+        this.id = user.id;
+        this.username = user.username;
+        this.firstName = user.firstName;
+        this.lastName = user.lastName;
+        this.email = user.email;
+        this.password = user.password;
+        this.role = user.role;
     }
 
     validate(user: {
-        username: string
-        firstName: string
-        lastName: string
-        email: string
-        password: string
-        role: Role
+        username: string;
+        firstName: string;
+        lastName: string;
+        email: string;
+        password: string;
+        role: Role;
     }) {
         if (!user.username?.trim()) {
-            throw new Error('Username is required')
+            throw new Error('Username is required');
         }
         if (!user.firstName?.trim()) {
-            throw new Error('First name is required')
+            throw new Error('First name is required');
         }
         if (!user.lastName?.trim()) {
-            throw new Error('Last name is required')
+            throw new Error('Last name is required');
         }
         if (!user.email?.trim()) {
-            throw new Error('Email is required')
+            throw new Error('Email is required');
         }
         if (!user.password?.trim()) {
-            throw new Error('Password is required')
+            throw new Error('Password is required');
         }
         if (!user.role) {
-            throw new Error('Role is required')
+            throw new Error('Role is required');
         }
     }
 
-    equals({ id, username, firstName, lastName, email, password, role }): boolean {
+    equals(user: User): boolean {
         return (
-            this.id === id &&
-            this.username === username &&
-            this.firstName === firstName &&
-            this.lastName === lastName &&
-            this.email === email &&
-            this.password === password &&
-            this.role === role
+            this.id === user.id &&
+            this.username === user.username &&
+            this.firstName === user.firstName &&
+            this.lastName === user.lastName &&
+            this.email === user.email &&
+            this.password === user.password &&
+            this.role === user.role
         );
     }
 
@@ -79,6 +79,6 @@ export class User {
             email,
             password,
             role: role as Role,
-        })
+        });
     }
 }
