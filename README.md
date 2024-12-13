@@ -18,7 +18,7 @@ The **Assessment Scheduling System** is a web application developed to streamlin
 
 ## Technologies Used
 - **Frontend**: React with TypeScript
-- **Backend**: Node.js with Java
+- **Backend**: TypeScript, Node.js and Java
 - **Database**: PostgreSQL
 - **Tools**: Maven/Gradle, IntelliJ IDE, Git/GitHub, JUnit for testing
 
