@@ -20,7 +20,7 @@ The **Assessment Scheduling System** is a web application developed to streamlin
 - **Frontend**: React with TypeScript
 - **Backend**: TypeScript, Node.js and Java
 - **Database**: PostgreSQL
-- **Tools**: Maven/Gradle, IntelliJ IDE, Git/GitHub, JUnit for testing
+- **Tools**: Maven, IntelliJ IDE, Git/GitHub, Jest for testing
 
 ## How to Use the Application
 ### For Users (Course Coordinators):
@@ -74,7 +74,7 @@ This project was developed as part of the **Software Quality** curricular unit f
 ## Testing
 Run the JUnit test suite to verify functionality:
 ```bash
-mvn test
+npm test
 ```
 
 ---
