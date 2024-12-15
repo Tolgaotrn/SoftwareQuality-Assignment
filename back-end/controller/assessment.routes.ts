@@ -1,10 +1,10 @@
 import express from 'express'
-import assessmentService from '../service/assesment.service'
+import assessmentService from '../service/assessment.service'
 
-const assesmentRouter = express.Router()
+const assessmentRouter = express.Router()
 
 // GET all assessments
-assesmentRouter.get('/', async (req, res) => {
+assessmentRouter.get('/', async (req, res) => {
     try {
         const assessments = await assessmentService.getAllAssessments()
         res.json(assessments)
@@ -14,7 +14,7 @@ assesmentRouter.get('/', async (req, res) => {
 })
 
 // GET assessment by ID
-assesmentRouter.get('/:id', async (req, res) => {
+assessmentRouter.get('/:id', async (req, res) => {
     try {
         const { id } = req.params
         const assessment = await assessmentService.getAssessmentById({ id: Number(id) })
@@ -28,7 +28,7 @@ assesmentRouter.get('/:id', async (req, res) => {
 })
 
 // POST create a new assessment
-assesmentRouter.post('/', async (req, res) => {
+assessmentRouter.post('/', async (req, res) => {
     try {
         const { courseId, type, weight, date, roomId, requiresComputer } = req.body
         const newAssessment = await assessmentService.createAssessment({
@@ -45,4 +45,4 @@ assesmentRouter.post('/', async (req, res) => {
     }
 })
 
-export default assesmentRouter
+export default assessmentRouter

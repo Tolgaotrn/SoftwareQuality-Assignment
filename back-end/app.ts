@@ -8,7 +8,7 @@ import { userRouter } from './controller/user.routes';
 import helmet from 'helmet';
 
 import { expressjwt } from 'express-jwt';
-import assesmentRoutes from "./controller/assesment.routes";
+import assessmentRoutes from "./controller/assessment.routes";
 import roomRoutes from "./controller/room.routes";
 import courseRoutes from "./controller/course.routes";
 import semesterRoutes from "./controller/semester.routes";
@@ -40,7 +40,7 @@ app.use(bodyParser.json());
 // );
 
 app.use('/users', userRouter);
-app.use('/assement', assesmentRoutes);
+app.use('/assessment', assessmentRoutes);
 app.use('/room', roomRoutes);
 app.use('/course', courseRoutes);
 app.use('/semester', semesterRoutes);

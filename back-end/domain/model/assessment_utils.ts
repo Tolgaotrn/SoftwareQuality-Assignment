@@ -1,4 +1,4 @@
-// import {Assessment} from "./assesment";
+// import {Assessment} from "./assessment";
 // import {AssessmentType} from "./enums";
 //
 // export class AssessmentUtils {

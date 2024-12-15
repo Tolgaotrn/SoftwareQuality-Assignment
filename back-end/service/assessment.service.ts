@@ -1,5 +1,5 @@
-import { Assessment } from '../domain/model/assesment'
-import assessmentDB from '../domain/data-access/assesment.db'
+import { Assessment } from '../domain/model/assessment'
+import assessmentDB from '../domain/data-access/assessment.db'
 import { AssessmentType } from '../domain/model/enums'
 
 const getAllAssessments = async (): Promise<Assessment[]> => assessmentDB.getAllAssessments()

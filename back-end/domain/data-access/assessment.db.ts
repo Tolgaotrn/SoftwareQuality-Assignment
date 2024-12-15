@@ -1,4 +1,4 @@
-import { Assessment } from '../model/assesment'
+import { Assessment } from '../model/assessment'
 import database from '../../util/database'
 import { AssessmentType } from '../model/enums'
 
