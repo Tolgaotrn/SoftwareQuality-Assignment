@@ -72,11 +72,11 @@ model Semester {
 model Assessment {
   id                  Int            @id @default(autoincrement())
   type                AssessmentType
-  weight              Float
+  weight              Float          @default(0.0) // Ensure weight has a default
   date                DateTime
-  location            String
+  location            String         @default("TBD") // Default location
   requiresComputer    Boolean
-  mandatoryAttendance Boolean
+  mandatoryAttendance Boolean        @default(false) // Default attendance
   deadline            DateTime?
   course              Course         @relation(fields: [courseId], references: [id])
   courseId            Int
