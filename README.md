@@ -59,7 +59,7 @@ This project was developed as part of the **Software Quality** curricular unit f
    cd frontend
    npm install
    cd ../backend
-   mvn install
+   npm install
    ```
 4. Start the development server:
    - **Frontend**:
@@ -72,7 +72,7 @@ This project was developed as part of the **Software Quality** curricular unit f
      ```
 
 ## Testing
-Run the JUnit test suite to verify functionality:
+Run the Jest test suite to verify functionality:
 ```bash
 npm test
 ```
