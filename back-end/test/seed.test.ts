@@ -11,7 +11,6 @@ describe('Seed Admin User', () => {
     });
 
     afterAll(async () => {
-        // Close the database connection after the tests
         await database.$disconnect();
     });
 });

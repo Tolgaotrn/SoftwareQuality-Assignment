@@ -4,10 +4,8 @@ import bcrypt from 'bcrypt'
 const prisma = new PrismaClient()
 
 const main = async () => {
-    // Delete all existing users (optional, for testing purposes)
     await prisma.user.deleteMany()
 
-    // Create the admin user
     const admin = await prisma.user.create({
         data: {
             username: 'admin',
@@ -19,7 +17,6 @@ const main = async () => {
         },
     })
 
-    // Create the coordinator user
     const coordinator = await prisma.user.create({
         data: {
             username: 'user',
