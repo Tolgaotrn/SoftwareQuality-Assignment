@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useRouter } from "next/router"; // Import useRouter from Next.js
 import CourseService from "@services/CourseService";
 
 interface Course {
@@ -9,6 +10,7 @@ interface Course {
 }
 
 const MyCourses: React.FC = () => {
+    const router = useRouter(); // Initialize the router for navigation
     const [Courses, setCourses] = useState<Course[]>([]);
     const [error, setError] = useState<string | null>(null);
     const [loggedInUser, setLoggedInUser] = useState<{ username: string } | null>(null);
@@ -37,24 +39,22 @@ const MyCourses: React.FC = () => {
 
     const handleUnassign = async (courseId: number) => {
         try {
-            const response = await CourseService.unassignedCourse(courseId);
-            console.log("API Response:", response);
+            await CourseService.unassignedCourse(courseId);
             setCourses((prevCourses) =>
                 prevCourses.map((course) =>
                     course.id === courseId ? { ...course, coordinatorId: null } : course
                 )
             );
-            window.location.reload()
         } catch (error) {
             console.error("Error in API call:", error);
             setError("Failed to unassign course. Please try again.");
         }
     };
 
-
-
-
-
+    const handleViewCourse = (courseId: number) => {
+        // Navigate to the course details page
+        router.push(`/userdash/course/${courseId}`);
+    };
 
     return (
         <div className="max-w-2xl m-auto">
@@ -71,7 +71,6 @@ const MyCourses: React.FC = () => {
                     <th className="py-2">CoordinatorId</th>
                     <th className="py-2">Actions</th>
                     <th className="py-2">Unassign</th>
-
                 </tr>
                 </thead>
                 <tbody>
@@ -80,28 +79,25 @@ const MyCourses: React.FC = () => {
                         <td className="border px-4 py-2">{course.id}</td>
                         <td className="border px-4 py-2">{course.name}</td>
                         <td className="border px-4 py-2">{course.code}</td>
-                        {course.coordinatorId == null && (
-                            <td className="border px-4 py-2">Not Assigned</td>
-                        )}
-                        {course.coordinatorId != null && (
-                            <td className="border px-4 py-2">{course.coordinatorId}</td>
-                        )}
                         <td className="border px-4 py-2">
-                            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                            {course.coordinatorId ?? "Not Assigned"}
+                        </td>
+                        <td className="border px-4 py-2">
+                            <button
+                                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                                onClick={() => handleViewCourse(course.id)} // Navigate on click
+                            >
                                 View
                             </button>
                         </td>
                         <td className="border px-4 py-2">
                             <button
                                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                                onClick={() => {
-                                    handleUnassign(course.id);
-                                }}
+                                onClick={() => handleUnassign(course.id)}
                             >
                                 Unassign
                             </button>
                         </td>
-
                     </tr>
                 ))}
                 </tbody>
