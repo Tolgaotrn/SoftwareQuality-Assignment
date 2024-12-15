@@ -33,8 +33,9 @@ const SemesterManagement: React.FC = () => {
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault(); // Prevents the default form submission
-        console.log("Semester Data Submitted:", semesterData); // For debugging
+        e.preventDefault(); // Prevent default form submission
+        console.log("Semester Data Submitted:", semesterData); // Debugging
+
         try {
             await SemesterService.createSemester(semesterData);
             alert("Semester created successfully!");

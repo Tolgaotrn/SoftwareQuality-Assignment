@@ -54,12 +54,16 @@ semesterRouter.post("/", async (req, res) => {
             return res.status(400).json({ message: "Missing required fields" });
         }
 
+        // Pass the fields as individual properties
         const newSemester = await semesterService.createSemester({
             startDate: new Date(startDate),
             endDate: new Date(endDate),
-            normalExamPeriod,
-            appealExamPeriod,
-            specialExamPeriod,
+            normalExamStart: new Date(normalExamPeriod.startDate),
+            normalExamEnd: new Date(normalExamPeriod.endDate),
+            appealExamStart: new Date(appealExamPeriod.startDate),
+            appealExamEnd: new Date(appealExamPeriod.endDate),
+            specialExamStart: new Date(specialExamPeriod.startDate),
+            specialExamEnd: new Date(specialExamPeriod.endDate),
         });
 
         res.status(201).json(newSemester);
@@ -68,5 +72,6 @@ semesterRouter.post("/", async (req, res) => {
         res.status(500).json({ message: "Internal server error" });
     }
 });
+
 
 export default semesterRouter;

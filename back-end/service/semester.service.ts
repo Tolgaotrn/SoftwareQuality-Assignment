@@ -1,5 +1,6 @@
 import { Semester } from '../domain/model/semester'
 import database from '../../back-end/util/database'
+import axios from 'axios';
 
 const getAllSemesters = async (): Promise<Semester[]> => {
     try {
@@ -24,41 +25,40 @@ const getSemesterById = async ({ id }: { id: number }): Promise<Semester | null>
 const createSemester = async ({
                                   startDate,
                                   endDate,
-                                  normalExamPeriod,
-                                  appealExamPeriod,
-                                  specialExamPeriod,
+                                  normalExamStart,
+                                  normalExamEnd,
+                                  appealExamStart,
+                                  appealExamEnd,
+                                  specialExamStart,
+                                  specialExamEnd,
                               }: {
     startDate: Date;
     endDate: Date;
-    normalExamPeriod: { startDate: Date; endDate: Date };
-    appealExamPeriod: { startDate: Date; endDate: Date };
-    specialExamPeriod: { startDate: Date; endDate: Date };
+    normalExamStart: Date;
+    normalExamEnd: Date;
+    appealExamStart: Date;
+    appealExamEnd: Date;
+    specialExamStart: Date;
+    specialExamEnd: Date;
 }): Promise<Semester> => {
     try {
-        console.log("Creating semester with data:", {
-            startDate,
-            endDate,
-            normalExamPeriod,
-            appealExamPeriod,
-            specialExamPeriod,
-        });
-
         const semesterPrisma = await database.semester.create({
             data: {
                 startDate,
                 endDate,
-                normalStartDate: normalExamPeriod.startDate,
-                normalEndDate: normalExamPeriod.endDate,
-                appealStartDate: appealExamPeriod.startDate,
-                appealEndDate: appealExamPeriod.endDate,
-                specialStartDate: specialExamPeriod.startDate,
-                specialEndDate: specialExamPeriod.endDate,
+                normalStartDate: normalExamStart,
+                normalEndDate: normalExamEnd,
+                appealStartDate: appealExamStart,
+                appealEndDate: appealExamEnd,
+                specialStartDate: specialExamStart,
+                specialEndDate: specialExamEnd,
             },
         });
+
         return Semester.from(semesterPrisma);
     } catch (error) {
-        console.error("Error in createSemester:", error); // Log the full error
-        throw new Error("Database error");
+        console.error("Error in createSemester:", error);
+        throw new Error("Failed to create semester: " + error.message);
     }
 };
 

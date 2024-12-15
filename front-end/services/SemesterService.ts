@@ -1,10 +1,28 @@
 const createSemester = async (semesterData) => {
+    // Transform frontend flat structure into nested structure
+    const formattedData = {
+        startDate: semesterData.startDate,
+        endDate: semesterData.endDate,
+        normalExamPeriod: {
+            startDate: semesterData.normalExamStart,
+            endDate: semesterData.normalExamEnd,
+        },
+        appealExamPeriod: {
+            startDate: semesterData.appealExamStart,
+            endDate: semesterData.appealExamEnd,
+        },
+        specialExamPeriod: {
+            startDate: semesterData.specialExamStart,
+            endDate: semesterData.specialExamEnd,
+        },
+    };
+
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/semester`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify(semesterData),
+        body: JSON.stringify(formattedData), // Send the formatted payload
     });
 
     if (!response.ok) {
