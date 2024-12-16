@@ -1,13 +1,55 @@
 import { Semester as SemesterPrisma } from '@prisma/client';
 
+/**
+ * Represents a semester entity with details such as start and end dates, and exam periods.
+ */
 export class Semester {
+    /**
+     * The unique identifier for the semester (optional).
+     */
     readonly id?: number;
+
+    /**
+     * The start date of the semester.
+     */
     readonly startDate: Date;
+
+    /**
+     * The end date of the semester.
+     */
     readonly endDate: Date;
+
+    /**
+     * The normal exam period for the semester.
+     * Includes the start and end dates of the period.
+     */
     readonly normalExamPeriod: { startDate: Date; endDate: Date };
+
+    /**
+     * The appeal exam period for the semester.
+     * Includes the start and end dates of the period.
+     */
     readonly appealExamPeriod: { startDate: Date; endDate: Date };
+
+    /**
+     * The special exam period for the semester.
+     * Includes the start and end dates of the period.
+     */
     readonly specialExamPeriod: { startDate: Date; endDate: Date };
 
+    /**
+     * Constructs an instance of the `Semester` class and validates the provided data.
+     *
+     * @param semester - The semester data.
+     * @param semester.id - The unique identifier for the semester (optional).
+     * @param semester.startDate - The start date of the semester.
+     * @param semester.endDate - The end date of the semester.
+     * @param semester.normalExamPeriod - The normal exam period (start and end dates).
+     * @param semester.appealExamPeriod - The appeal exam period (start and end dates).
+     * @param semester.specialExamPeriod - The special exam period (start and end dates).
+     *
+     * @throws {Error} If required fields are missing or invalid.
+     */
     constructor(semester: {
         id?: number;
         startDate: Date;
@@ -26,6 +68,15 @@ export class Semester {
         this.specialExamPeriod = semester.specialExamPeriod;
     }
 
+    /**
+     * Validates the semester data to ensure all required fields are present and valid.
+     *
+     * @param semester - The semester data to validate.
+     * @param semester.startDate - The start date of the semester (required).
+     * @param semester.endDate - The end date of the semester (required).
+     *
+     * @throws {Error} If the start or end dates are missing or invalid.
+     */
     validate(semester: { startDate: Date; endDate: Date }) {
         if (!semester.startDate || !semester.endDate) {
             throw new Error('Start and end dates are required');
@@ -35,6 +86,22 @@ export class Semester {
         }
     }
 
+    /**
+     * Converts a Prisma `Semester` object into a `Semester` instance.
+     *
+     * @param prismaData - The Prisma `Semester` object to convert.
+     * @param prismaData.id - The unique identifier for the semester (optional).
+     * @param prismaData.startDate - The start date of the semester.
+     * @param prismaData.endDate - The end date of the semester.
+     * @param prismaData.normalStartDate - The start date of the normal exam period.
+     * @param prismaData.normalEndDate - The end date of the normal exam period.
+     * @param prismaData.appealStartDate - The start date of the appeal exam period.
+     * @param prismaData.appealEndDate - The end date of the appeal exam period.
+     * @param prismaData.specialStartDate - The start date of the special exam period.
+     * @param prismaData.specialEndDate - The end date of the special exam period.
+     *
+     * @returns A new `Semester` instance based on the Prisma data.
+     */
     static from({
                     id,
                     startDate,
@@ -45,7 +112,7 @@ export class Semester {
                     appealEndDate,
                     specialStartDate,
                     specialEndDate,
-                }: SemesterPrisma) {
+                }: SemesterPrisma): Semester {
         return new Semester({
             id,
             startDate,
